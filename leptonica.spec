@@ -1,11 +1,11 @@
-%define major 4
+%define major 5
 %define libname %mklibname lept %{major}
 %define devname %mklibname -d lept
 
 Summary:	C library for image processing and image analysis operations
 Name:		leptonica
-Version:	1.72
-Release:	2
+Version:	1.74.1
+Release:	1
 License:	MIT
 Group:		Graphics
 Url:		http://www.leptonica.org
