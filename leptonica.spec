@@ -4,8 +4,8 @@
 
 Summary:	C library for image processing and image analysis operations
 Name:		leptonica
-Version:	1.78.0
-Release:	2
+Version:	1.79.0
+Release:	1
 License:	MIT
 Group:		Graphics
 Url:		http://www.leptonica.org
@@ -71,6 +71,7 @@ sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 %files -n %{devname}
 %doc leptonica-license.txt README.html
 %{_libdir}/*.so
+
 %{_includedir}/leptonica
 %{_libdir}/pkgconfig/lept.pc
-
+%{_libdir}/cmake/*.cmake
