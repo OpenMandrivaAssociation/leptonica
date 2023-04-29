@@ -1,18 +1,18 @@
-%define major 5
-%define libname %mklibname lept %{major}
-%define devname %mklibname -d lept
+%define major 6
+%define libname %mklibname leptonica
+%define devname %mklibname -d leptonica
 
 Summary:	C library for image processing and image analysis operations
 Name:		leptonica
-Version:	1.82.0
-Release:	2
+Version:	1.83.1
+Release:	1
 License:	MIT
 Group:		Graphics
 Url:		http://www.leptonica.org
-Source0:	http://www.leptonica.org/source/%{name}-%{version}.tar.gz
+Source0:	https://github.com/DanBloomberg/leptonica/archive/refs/tags/%{version}.tar.gz
 BuildRequires:	giflib-devel
-BuildRequires:	jpeg-devel
-BuildRequires:	tiff-devel
+BuildRequires:	pkgconfig(libjpeg)
+BuildRequires:	pkgconfig(libtiff-4)
 BuildRequires:	pkgconfig(libpng)
 BuildRequires:	pkgconfig(zlib)
 
@@ -46,12 +46,12 @@ Provides:	%{name}-devel = %{version}
 This package contains development files only.
 
 %prep
-%setup -q
+%autosetup -p1
+./autogen.sh
 
 %build
 sed -i 's/EGifOpenFileHandle(fd))/EGifOpenFileHandle(fd, NULL))/g' src/gifio.c
 sed -i 's/DGifOpenFileHandle(fd))/DGifOpenFileHandle(fd, NULL))/g' src/gifio.c
-#% configure2_5x --disable-static --disable-programs
 %configure \
 	--prefix=%{_prefix} \
 	--libdir=%{_libdir} \
@@ -66,7 +66,7 @@ sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 %makeinstall_std
 
 %files -n %{libname}
-%{_libdir}/liblept.so.%{major}*
+%{_libdir}/libleptonica.so.%{major}*
 
 %files -n %{devname}
 %doc leptonica-license.txt README.html
