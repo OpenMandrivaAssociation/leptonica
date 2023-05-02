@@ -2,19 +2,24 @@
 %define libname %mklibname leptonica
 %define devname %mklibname -d leptonica
 
+%bcond_with	prog
+
 Summary:	C library for image processing and image analysis operations
 Name:		leptonica
 Version:	1.83.1
-Release:	1
+Release:	2
 License:	MIT
 Group:		Graphics
 Url:		http://www.leptonica.org
 Source0:	https://github.com/DanBloomberg/leptonica/archive/refs/tags/%{version}.tar.gz
+BuildRequires:	cmake ninja
 BuildRequires:	giflib-devel
 BuildRequires:	pkgconfig(libjpeg)
 BuildRequires:	pkgconfig(libtiff-4)
 BuildRequires:	pkgconfig(libpng)
 BuildRequires:	pkgconfig(zlib)
+# (fedora)
+Patch0:		leptonica_cmake.patch
 
 %description
 Well-tested C code for some basic image processing operations, along with
@@ -24,6 +29,13 @@ is included, with the exception that some of the scaling methods do not work
 at all depths. There are also implementations of binary morphology, grayscale
 morphology, convolution and rank order filters, and applications such as jbig2
 image processing and color quantization.
+
+%if %{with prog}
+%files
+%{_bindir}/*
+%endif
+
+#----------------------------------------------------------------------------
 
 %package -n %{libname} 
 Summary:	C library for image processing and image analysis operations
@@ -37,6 +49,11 @@ at all depths. There are also implementations of binary morphology, grayscale
 morphology, convolution and rank order filters, and applications such as jbig2
 image processing and color quantization.
 
+%files -n %{libname}
+%{_libdir}/libleptonica.so.%{major}*
+
+#----------------------------------------------------------------------------
+
 %package -n %{devname}
 Summary:	C library for image processing and image analysis operations
 Requires:	%{libname} = %{version}
@@ -45,33 +62,25 @@ Provides:	%{name}-devel = %{version}
 %description -n %{devname}
 This package contains development files only.
 
-%prep
-%autosetup -p1
-./autogen.sh
-
-%build
-sed -i 's/EGifOpenFileHandle(fd))/EGifOpenFileHandle(fd, NULL))/g' src/gifio.c
-sed -i 's/DGifOpenFileHandle(fd))/DGifOpenFileHandle(fd, NULL))/g' src/gifio.c
-%configure \
-	--prefix=%{_prefix} \
-	--libdir=%{_libdir} \
-	--disable-programs \
-	--disable-static
-sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
-sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
-
-%make
-
-%install
-%makeinstall_std
-
-%files -n %{libname}
-%{_libdir}/libleptonica.so.%{major}*
-
 %files -n %{devname}
 %doc leptonica-license.txt README.html
 %{_libdir}/*.so
-
 %{_includedir}/leptonica
 %{_libdir}/pkgconfig/lept.pc
-%{_libdir}/cmake/*.cmake
+%{_libdir}/cmake/%{name}/*.cmake
+
+#----------------------------------------------------------------------------
+
+%prep
+%autosetup -p1
+
+%build
+%cmake \
+	-DBUILD_PROG:BOOL=%{?with_prog:ON}%{!?with_prog:OFF} \
+	-DSYM_LINK:BOOL=ON \
+	-GNinja
+%ninja_build
+
+%install
+%ninja_install -C build
+
