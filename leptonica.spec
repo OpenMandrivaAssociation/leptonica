@@ -77,7 +77,7 @@ This package contains development files only.
 %build
 %cmake \
 	-DBUILD_PROG:BOOL=%{?with_prog:ON}%{!?with_prog:OFF} \
-	-DSYM_LINK:BOOL=ON \
+	-DSYM_LINK:BOOL=OFF \
 	-GNinja
 %ninja_build
 
