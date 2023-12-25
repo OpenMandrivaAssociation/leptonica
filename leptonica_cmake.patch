@@ -1,39 +1,28 @@
-diff -rupN --no-dereference leptonica-1.83.1/CMakeLists.txt leptonica-1.83.1-new/CMakeLists.txt
---- leptonica-1.83.1/CMakeLists.txt	2023-01-26 07:12:24.000000000 +0100
-+++ leptonica-1.83.1-new/CMakeLists.txt	2023-01-28 23:06:59.880773377 +0100
-@@ -60,7 +60,7 @@ option(LIBWEBP_SUPPORT "Build with WebP
- option(OPENJPEG_SUPPORT "Build with OpenJPEG support" ON)
+diff -up leptonica-1.84.0/CMakeLists.txt.1~ leptonica-1.84.0/CMakeLists.txt
+--- leptonica-1.84.0/CMakeLists.txt.1~	2023-12-25 19:03:20.632022943 +0100
++++ leptonica-1.84.0/CMakeLists.txt	2023-12-25 19:07:45.761684297 +0100
+@@ -71,7 +71,7 @@ option(ENABLE_WEBP "Enable WebP support"
+ option(ENABLE_OPENJPEG "Enable OpenJPEG support" ON)
  
  set(leptonica_INSTALL_CMAKE_DIR
 -    "lib/cmake/leptonica"
-+    "lib${LIB_SUFFIX}/cmake/leptonica"
++	"lib${LIB_SUFFIX}/cmake/leptonica"
      CACHE STRING "Install destination for CMake package files")
  
  if(NOT SW_BUILD)
-@@ -307,7 +307,7 @@ configure_file(
-   ${CMAKE_CURRENT_SOURCE_DIR}/cmake/templates/LeptonicaConfig.cmake.in
+@@ -369,7 +369,7 @@ configure_file(
    ${CMAKE_CURRENT_BINARY_DIR}/LeptonicaConfig.cmake @ONLY)
  
--install(FILES ${CMAKE_CURRENT_BINARY_DIR}/lept.pc DESTINATION lib/pkgconfig)
-+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/lept.pc DESTINATION lib${LIB_SUFFIX}/pkgconfig)
+ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/lept_$<CONFIG>.pc
+-        DESTINATION lib/pkgconfig)
++	DESTINATION lib${LIB_SUFFIX}/pkgconfig)
  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/LeptonicaConfig.cmake
                ${CMAKE_CURRENT_BINARY_DIR}/LeptonicaConfig-version.cmake
          DESTINATION ${leptonica_INSTALL_CMAKE_DIR})
-diff -rupN --no-dereference leptonica-1.83.1/src/CMakeLists.txt leptonica-1.83.1-new/src/CMakeLists.txt
---- leptonica-1.83.1/src/CMakeLists.txt	2023-01-26 07:12:24.000000000 +0100
-+++ leptonica-1.83.1-new/src/CMakeLists.txt	2023-01-28 23:06:59.880773377 +0100
-@@ -20,8 +20,8 @@ add_library                     (leptoni
- set_target_properties           (leptonica PROPERTIES VERSION   6.0.0)
- set_target_properties           (leptonica PROPERTIES SOVERSION 6)
- if (WIN32)
--set_target_properties           (leptonica PROPERTIES OUTPUT_NAME       leptonica-${VERSION_PLAIN})
--set_target_properties           (leptonica PROPERTIES DEBUG_OUTPUT_NAME leptonica-${VERSION_PLAIN}d)
-+set_target_properties           (leptonica PROPERTIES SUFFIX "-6${CMAKE_SHARED_LIBRARY_SUFFIX}")
-+set_target_properties           (leptonica PROPERTIES SUFFIX "-6${CMAKE_SHARED_LIBRARY_SUFFIX}")
- else()
- set_target_properties           (leptonica PROPERTIES OUTPUT_NAME       leptonica)
- set_target_properties           (leptonica PROPERTIES DEBUG_OUTPUT_NAME leptonica)
-@@ -70,7 +70,7 @@ if (UNIX)
+diff -up leptonica-1.84.0/src/CMakeLists.txt.1~ leptonica-1.84.0/src/CMakeLists.txt
+--- leptonica-1.84.0/src/CMakeLists.txt.1~	2023-12-24 09:24:30.000000000 +0100
++++ leptonica-1.84.0/src/CMakeLists.txt	2023-12-25 19:03:20.632022943 +0100
+@@ -66,7 +66,7 @@ if (UNIX)
              ${CMAKE_COMMAND} -E create_symlink "$<TARGET_FILE:leptonica>" ${old_target}
              DEPENDS ${PROJECT_NAME}
              COMMENT "Creating lept symlink")

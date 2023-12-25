@@ -6,8 +6,8 @@
 
 Summary:	C library for image processing and image analysis operations
 Name:		leptonica
-Version:	1.83.1
-Release:	2
+Version:	1.84.0
+Release:	1
 License:	MIT
 Group:		Graphics
 Url:		http://www.leptonica.org
@@ -66,7 +66,7 @@ This package contains development files only.
 %doc leptonica-license.txt README.html
 %{_libdir}/*.so
 %{_includedir}/leptonica
-%{_libdir}/pkgconfig/lept.pc
+%{_libdir}/pkgconfig/lept*.pc
 %{_libdir}/cmake/%{name}/*.cmake
 
 #----------------------------------------------------------------------------
@@ -83,4 +83,6 @@ This package contains development files only.
 
 %install
 %ninja_install -C build
-
+ln -s lept_RelWithDebInfo.pc %{buildroot}%{_libdir}/pkgconfig/lept.pc
+ln -s lept_RelWithDebInfo.pc %{buildroot}%{_libdir}/pkgconfig/lept_Release.pc
+ln -s lept_RelWithDebInfo.pc %{buildroot}%{_libdir}/pkgconfig/lept_Debug.pc
