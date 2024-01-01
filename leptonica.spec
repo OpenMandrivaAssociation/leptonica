@@ -1,8 +1,10 @@
+%global __provides_exclude ^cmake\\(.*)$
+
 %define major 6
 %define libname %mklibname leptonica
 %define devname %mklibname -d leptonica
 
-%bcond_with	prog
+%bcond_without	prog
 
 Summary:	C library for image processing and image analysis operations
 Name:		leptonica
@@ -11,7 +13,7 @@ Release:	1
 License:	MIT
 Group:		Graphics
 Url:		http://www.leptonica.org
-Source0:	https://github.com/DanBloomberg/leptonica/archive/refs/tags/%{version}.tar.gz
+Source0:	https://github.com/DanBloomberg/leptonica/archive/refs/tags/%{version}/%{name}-%{version}.tar.gz
 BuildRequires:	cmake ninja
 BuildRequires:	giflib-devel
 BuildRequires:	pkgconfig(libjpeg)
@@ -83,6 +85,6 @@ This package contains development files only.
 
 %install
 %ninja_install -C build
-ln -s lept_RelWithDebInfo.pc %{buildroot}%{_libdir}/pkgconfig/lept.pc
-ln -s lept_RelWithDebInfo.pc %{buildroot}%{_libdir}/pkgconfig/lept_Release.pc
-ln -s lept_RelWithDebInfo.pc %{buildroot}%{_libdir}/pkgconfig/lept_Debug.pc
+#ln -s lept_RelWithDebInfo.pc %{buildroot}%{_libdir}/pkgconfig/lept.pc
+#ln -s lept_RelWithDebInfo.pc %{buildroot}%{_libdir}/pkgconfig/lept_Release.pc
+#ln -s lept_RelWithDebInfo.pc %{buildroot}%{_libdir}/pkgconfig/lept_Debug.pc
