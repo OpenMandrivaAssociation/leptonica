@@ -1,4 +1,6 @@
-%global __provides_exclude ^cmake\\(.*)$
+# exclude unwanter cmake requires
+%global __requires_exclude cmake\\(openjpeg\\)|cmake\\(OpenJPEG\\) \
+	|cmake\\(webp\\)|cmake\\(WebP\\)
 
 %define major 6
 %define libname %mklibname leptonica
