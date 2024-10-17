@@ -14,7 +14,7 @@ Version:	1.84.1
 Release:	1
 License:	MIT
 Group:		Graphics
-Url:		http://www.leptonica.org
+Url:		https://www.leptonica.org
 Source0:	https://github.com/DanBloomberg/leptonica/archive/refs/tags/%{version}/%{name}-%{version}.tar.gz
 BuildRequires:	cmake ninja
 BuildRequires:	giflib-devel
